@@ -42,10 +42,6 @@
 #define RCC_HSE_FRQ  4000000
 #endif
 
-//Uncomment this line if calibration is needed
-//#define CALIBRATION_EN
-
-
 /***********************Buses Domain Clock Configuration***********************/
 //NOTE : SYS_CLK Feeds-> AHB Feeds-> (APB1 & APB2)
 
@@ -65,18 +61,7 @@
 Options 2, 4, 6, 8       from the APB2_CLK*/
 #define RCC_ADC_PRES 2
 
-/*************************Main clock output on MCO Pin*************************/
-//Options: Comment the next line if there is no need for MCO pin
-//#define RCC_MCO_ENABLE
-#ifdef  RCC_MCO_ENABLE
-    /*Options :
-        RCC_MCO_SYS_CLK
-        RCC_MCO_HSI
-        RCC_MCO_HSE
-        RCC_MCO_PLL_BY_2
-    */
-#   define RCC_MCO_SELECT RCC_MCO_SYS_CLK
-#endif  /*RCC_MCO_ENABLE end */
+
 
 /*********************Run-Time Clk Manipiulation Functions*********************/
 /* For run time decisions about Clk source, User can enable these feature.    */

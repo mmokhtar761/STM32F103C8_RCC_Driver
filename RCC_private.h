@@ -48,13 +48,7 @@
 #define RCC_PLL_HSE             3
 #define RCC_PLL_HSE_BY_2        4
 #define RCC_PLL_HSI_BY_2        5
-/**************************Options for MCO clk output**************************/
-#ifdef  RCC_MCO_ENABLE
-#define RCC_MCO_SYS_CLk         0b100
-#define RCC_MCO_HSI             0b101
-#define RCC_MCO_HSE             0b110
-#define RCC_MCO_PLL_BY_2        0b111
-#endif /*RCC_MCO_ENABLE*/
+
 
 #define RCC_HSI_TRIM_STEP 40000 //40 KHz
 #define RCC_MAX_CALIBRATION_VAL 0x1F

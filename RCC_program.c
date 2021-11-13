@@ -160,9 +160,7 @@ void RCC_voidInitClk(void)
 		BIT_H(RCC_CFGR,15);
 	#endif
 
-#ifdef RCC_MCO_ENABLE
-	MAN_NIBBLE(RCC_CFGR,24,RCC_MCO_SELECT);
-#endif /*RCC_MCO_ENABLE*/
+
 
 }
 
@@ -189,3 +187,14 @@ void RCC_voidInitClk(void)
 			}
 		}
 #endif /*CALIBRATION_EN end */
+
+#ifdef RCC_MCO_ENABLE
+		void RCC_voidEnMCO (u8 Copy_u8OutputTypeMCO)
+		{
+			MAN_NIBBLE(RCC_CFGR,24,RCC_MCO_SELECT);
+		}
+		void RCC_voidDisMCO(void)
+		{
+			BIT_L(RCC_CFGR,26);
+		}
+#endif /*RCC_MCO_ENABLE*/
