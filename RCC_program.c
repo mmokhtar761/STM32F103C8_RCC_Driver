@@ -159,8 +159,38 @@ void RCC_voidInitClk(void)
 		BIT_H(RCC_CFGR,14);
 		BIT_H(RCC_CFGR,15);
 	#endif
+}
 
 
+void RCC_voidEnPeripheralClk ( u8 Copy_u8PeripheralBus  , u8 Copy_u8Peripheral )
+{
+	if      (Copy_u8PeripheralBus==RCC_AHB_BUS_ID)
+	{
+		BIT_H(RCC_AHBENR_BUS,Copy_u8Peripheral);
+	}
+	elseif (Copy_u8PeripheralBus==RCC_APB1_BUS_ID)
+	{
+		BIT_H(RCC_APB1ENR_BUS,Copy_u8Peripheral);
+	}
+	elseif (Copy_u8PeripheralBus==RCC_APB2_BUS_ID)
+	{
+		BIT_H(RCC_APB2ENR_BUS,Copy_u8Peripheral);
+	}
+}
+void RCC_voidDisPeripheralClk( u8 Copy_u8PeripheralBus  , u8 Copy_u8Peripheral )
+{
+	if      (Copy_u8PeripheralBus==RCC_AHB_BUS_ID)
+	{
+		BIT_L(RCC_AHBENR_BUS,Copy_u8Peripheral);
+	}
+	elseif (Copy_u8PeripheralBus==RCC_APB1_BUS_ID)
+	{
+		BIT_L(RCC_APB1ENR_BUS,Copy_u8Peripheral);
+	}
+	elseif (Copy_u8PeripheralBus==RCC_APB2_BUS_ID)
+	{
+		BIT_L(RCC_APB2ENR_BUS,Copy_u8Peripheral);
+	}
 
 }
 
