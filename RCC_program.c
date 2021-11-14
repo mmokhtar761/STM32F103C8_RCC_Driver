@@ -1,10 +1,10 @@
-/*************************************************************************/
-/* Author        : Mohamed Mokhtar Abd-Elaziz                            */
-/* File          : RCC_program.c                                         */
-/* Date          :                                                       */
-/* Version       : V01                                                   */
-/* GitHub        : https://github.com/mmokhtar761                        */
-/*************************************************************************/
+/******************************************************************************./
+/* Author        : Mohamed Mokhtar Abd-Elaziz                                 */
+/* File          : RCC_program.c                                              */
+/* Date          :                                                            */
+/* Version       : V01                                                        */
+/* GitHub        : https://github.com/mmokhtar761                             */
+/******************************************************************************/
 #include "MANIPILATOR.h"
 #include "STD_TYPES.h"
 
@@ -198,3 +198,38 @@ void RCC_voidInitClk(void)
 			BIT_L(RCC_CFGR,26);
 		}
 #endif /*RCC_MCO_ENABLE*/
+ifdef RCC_RUN_TIME_CLK_SELECT_ENABLE
+
+    /************************Options for sys clk source************************/
+    #define RCC_HSE_CRYSTAL         0
+    #define RCC_HSE_RC              1
+    #define RCC_HSI_RC              2
+    #define RCC_PLL_HSE             3
+    #define RCC_PLL_HSE_BY_2        4
+    #define RCC_PLL_HSI_BY_2        5
+
+    u8 RCC_u8CheckActiveClkSource (void)  //Returns the active clk type
+		{
+			u8 SWS =GET_NIBBLE(RCC_CFGR,0)&Ox3
+			if (SWS==0)                        return RCC_HSI_RC;
+			if (SWS==1 &&  GET_BIT(RCC_CR,18)) return RCC_HSE_RC;
+			if (SWS==1 && !GET_BIT(RCC_CR,18)) return RCC_HSE_CRYSTAL;
+			if (SWS==2 &&  GET_BIT(RCC_CR,16)) {
+				if (GET_BIT(RCC_CR,17)) reteun RCC_PLL_HSE_BY_2;
+				else 										reteun RCC_PLL_HSE;
+			}
+			if (SWS==2 &&  !GET_BIT(RCC_CR,16)) return RCC_PLL_HSI_BY_2;
+		}
+    void RCC_voidSetHSI8MHzCLK()         //Activate SysClk as HSI
+		{
+			BIT_H(RCC_CR,0); //HSI ON
+			//Wait 5 cycles or HSIRDY Flag to be set by hardware
+			do{
+				i++;
+			}while (i<5|| !GET_BIT(RCC_CR,17));
+			//Choose HSI as SysClk
+			RCC_CFGR = (RCC_CFGR& ~0x3);
+			BIT_L(RCC_CR,24); //PLL OFF
+			BIT_L(RCC_CR,16); //HSE OFF
+		}
+#endif /*RCC_RUN_TIME_CLK_SELECT_ENABLE*/

@@ -1,10 +1,10 @@
-/*************************************************************************/
-/* Author        : Mohamed Mokhtar Abd-Elaziz                            */
-/* File          : RCC_private.h                                         */
-/* Date          : 8 NOV 2021                                            */
-/* Version       : V01                                                   */
-/* GitHub        : https://github.com/mmokhtar761                        */
-/*************************************************************************/
+/******************************************************************************/
+/* Author        : Mohamed Mokhtar Abd-Elaziz                                 */
+/* File          : RCC_private.h                                              */
+/* Date          : 8 NOV 2021                                                 */
+/* Version       : V01                                                        */
+/* GitHub        : https://github.com/mmokhtar761                             */
+/******************************************************************************/
 #ifndef RCC_PRIVATE_H
 #define RCC_PRIVATE_H
 
@@ -41,13 +41,7 @@
 
 #define RCC_PLL_HSI_MAX_FRQ     64000000  //64-Mega Hz
 
-/**************************Options for sys clk source**************************/
-#define RCC_HSE_CRYSTAL         0
-#define RCC_HSE_RC              1
-#define RCC_HSI_RC              2
-#define RCC_PLL_HSE             3
-#define RCC_PLL_HSE_BY_2        4
-#define RCC_PLL_HSI_BY_2        5
+
 
 
 #define RCC_HSI_TRIM_STEP 40000 //40 KHz

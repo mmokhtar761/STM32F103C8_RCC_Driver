@@ -1,10 +1,10 @@
-/*************************************************************************/
-/* Author        : Mohamed Mokhtar Abd-Elaziz                            */
-/* File          : RCC_config.h                                         */
-/* Date          : 8 NOV 2021                                            */
-/* Version       : V01                                                   */
-/* GitHub        : https://github.com/mmokhtar761                        */
-/*************************************************************************/
+/******************************************************************************/
+/* Author        : Mohamed Mokhtar Abd-Elaziz                                 */
+/* File          : RCC_config.h                                               */
+/* Date          : 8 NOV 2021                                                 */
+/* Version       : V01                                                        */
+/* GitHub        : https://github.com/mmokhtar761                             */
+/******************************************************************************/
 #ifndef RCC_CONFIG_H
 #define RCC_CONFIG_H
 /**********************System Clock Source Configurations**********************/
@@ -63,19 +63,7 @@ Options 2, 4, 6, 8       from the APB2_CLK*/
 
 
 
-/*********************Run-Time Clk Manipiulation Functions*********************/
-/* For run time decisions about Clk source, User can enable these feature.    */
-//#define RCC_RUN_TIME_CLK_SELECT_ENABLE
-/*Uncomment this line to enable the compilation of the following Functions :
-    int RCC_intCheckActiveClkSource ()
-    void RCC_voidSetHSI8MHzCLK()
-    .
-    .
-    .
-    .
 
-
-*/
 
 
 /******************************************************************************/

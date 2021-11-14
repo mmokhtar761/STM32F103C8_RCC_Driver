@@ -37,8 +37,25 @@ void RCC_voidDisPeripheralClk( u8 Copy_u8PeripheralBus  , u8 Copy_u8Peripheral )
 #endif  /*RCC_MCO_ENABLE end */
 
 
+/*********************Run-Time Clk Manipiulation Functions*********************/
+/* For run time decisions about Clk source, User can enable these feature.    */
+//Uncomment this line to enable the compilation of the following Functions :
 
+//#define RCC_RUN_TIME_CLK_SELECT_ENABLE
+ifdef RCC_RUN_TIME_CLK_SELECT_ENABLE
 
+    /************************Options for sys clk source************************/
+    #define RCC_HSE_CRYSTAL         0
+    #define RCC_HSE_RC              1
+    #define RCC_HSI_RC              2
+    #define RCC_PLL_HSE             3
+    #define RCC_PLL_HSE_BY_2        4
+    #define RCC_PLL_HSI_BY_2        5
+
+    u8 RCC_u8CheckActiveClkSource (void); //Returns the active clk type
+    void RCC_voidSetHSI8MHzCLK();         //Activate SysClk as HSI
+    //to go back to configered clk options, call RCC_voidInitClk
+#endif /*RCC_RUN_TIME_CLK_SELECT_ENABLE*/
 
 
 
