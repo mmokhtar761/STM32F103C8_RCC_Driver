@@ -1,6 +1,7 @@
 /*************************************************************************/
 /* Author        : Mohamed Mokhtar Abd-Elaziz                            */
 /* File          :                                                       */
+/*Describtion    : An educational NVIC driver File for STM32F103C MC     */
 /* Date          :                                                       */
 /* Version       : V01.1                                                 */
 /* GitHub        :                                                       */
@@ -41,9 +42,9 @@ void NVIC_voidEnDisExternalPeripheralIRQ(u8 Copy_u8ENorDIS){
 void NVIC_voidConfigIRQpriority (ExPriphIRQ_type * Ptr_ExPriphIRQ){
   u8 local_u8tempIPR=0;
   #if     GROUP_PRIORITY_BITS == 0 && SUP_PRIORITY_BITS == 4
-  local_u8tempIPR  = Ptr_ExPriphIRQ->u8supPriority;
+  local_u8tempIPR  = (Ptr_ExPriphIRQ->u8supPriority)   &0xF; //Only first 4bits
   #elseif GROUP_PRIORITY_BITS == 4 && SUP_PRIORITY_BITS == 0
-  local_u8tempIPR  = Ptr_ExPriphIRQ->u8GroupPriority;
+  local_u8tempIPR  = (Ptr_ExPriphIRQ->u8GroupPriority) &0xF; //Only first 4bits
   #else
   local_u8tempIPR  = (Ptr_ExPriphIRQ->u8GroupPriority) <<SUP_PRIORITY_BITS;
   local_u8tempIPR +=  Ptr_ExPriphIRQ->u8supPriority;
@@ -52,55 +53,50 @@ void NVIC_voidConfigIRQpriority (ExPriphIRQ_type * Ptr_ExPriphIRQ){
 }
 
 void NVIC_voidEnExtIRQ  (u8 Copy_u8IRQ_ID){
-  if      (Copy_u8IRQ_ID < 31){
-    MY_NVIC->NVIC_ISER[0] = 1 << Copy_u8IRQ_ID;
-  }
-  else if (Copy_u8IRQ_ID < 64){
-    MY_NVIC->NVIC_ISER[1] = 1 << Copy_u8IRQ_ID;
-  }
+  /*
+    REG_FIRST_SECOND(Copy_u8IRQ_ID)  Evaluateted to 0 if (id < 32)
+                                             and to 1 if (id > 32)
+  */
+  MY_NVIC->NVIC_ISER[REG_FIRST_SECOND(Copy_u8IRQ_ID)] = 1 << Copy_u8IRQ_ID;
 }
 
 void NVIC_voidDisExtIRQ (u8 Copy_u8IRQ_ID){
-  if      (Copy_u8IRQ_ID < 31){
-    MY_NVIC->NVIC_ICER[0] = 1 << Copy_u8IRQ_ID;
-  }
-  else if (Copy_u8IRQ_ID < 64){
-    MY_NVIC->NVIC_ICER[1] = 1 << Copy_u8IRQ_ID;
-  }
+  /*
+    REG_FIRST_SECOND(Copy_u8IRQ_ID)  Evaluateted to 0 if (id < 32)
+                                             and to 1 if (id > 32)
+  */
+  MY_NVIC->NVIC_ICER[REG_FIRST_SECOND(Copy_u8IRQ_ID)] = 1 << Copy_u8IRQ_ID;
 }
 
 void NVIC_voidSetPending (u8 Copy_u8IRQ_ID){
-  if      (Copy_u8IRQ_ID < 31){
-    MY_NVIC->NVIC_ISPR[0] = 1 << Copy_u8IRQ_ID;
-  }
-  else if (Copy_u8IRQ_ID < 64){
-    MY_NVIC->NVIC_ISPR[1] = 1 << Copy_u8IRQ_ID;
-  }
+  /*
+    REG_FIRST_SECOND(Copy_u8IRQ_ID)  Evaluateted to 0 if (id < 32)
+                                             and to 1 if (id > 32)
+  */
+  MY_NVIC->NVIC_ISPR[REG_FIRST_SECOND(Copy_u8IRQ_ID)] = 1 << Copy_u8IRQ_ID;
 }
 
 void NVIC_voidClrPending (u8 Copy_u8IRQ_ID){
-  if      (Copy_u8IRQ_ID < 31){
-    MY_NVIC->NVIC_ICPR[0] = 1 << Copy_u8IRQ_ID;
-  }
-  else if (Copy_u8IRQ_ID < 64){
-    MY_NVIC->NVIC_ICPR[1] = 1 << Copy_u8IRQ_ID;
-  }
+  /*
+    REG_FIRST_SECOND(Copy_u8IRQ_ID)  Evaluateted to 0 if (id < 32)
+                                             and to 1 if (id > 32)
+  */
+  MY_NVIC->NVIC_ICPR[REG_FIRST_SECOND(Copy_u8IRQ_ID)] = 1 << Copy_u8IRQ_ID;
 }
 
 
 u32  NVIC_u32GetPending (u8 Copy_u8IRQ_ID){
-  if      (Copy_u8IRQ_ID < 31){
-    return (GET_BIT(MY_NVIC->(NVIC_ISPR[0]),Copy_u8IRQ_ID) == TRUE);
-  }
-  else if (Copy_u8IRQ_ID < 64){
-    return (GET_BIT(MY_NVIC->(NVIC_ISPR[1]),Copy_u8IRQ_ID) == TRUE);
-  }
+/*
+  The total expression returns TRUE  (1) if the IRQ is Pending
+                           and FALSE (0) if the IRQ is NOT Pending
+*/
+  return (GET_BIT(MY_NVIC->(NVIC_ISPR[REG_FIRST_SECOND(Copy_u8IRQ_ID)]),Copy_u8IRQ_ID));
 }
+
 u32  NVIC_u32GetActive (u8 Copy_u8IRQ_ID){
-  if      (Copy_u8IRQ_ID < 31){
-    return (GET_BIT(MY_NVIC->(NVIC_IABR[0]),Copy_u8IRQ_ID) == TRUE);
-  }
-  else if (Copy_u8IRQ_ID < 64){
-    return (GET_BIT(MY_NVIC->(NVIC_IABR[1]),Copy_u8IRQ_ID) == TRUE);
-  }
+  /*
+    The total expression returns TRUE  (1) if the IRQ is Active
+                             and FALSE (0) if the IRQ is NOT Active
+  */
+  return (GET_BIT(MY_NVIC->(NVIC_IABR[REG_FIRST_SECOND(Copy_u8IRQ_ID)]),Copy_u8IRQ_ID));
 }

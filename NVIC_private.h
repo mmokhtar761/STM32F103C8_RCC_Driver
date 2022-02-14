@@ -1,6 +1,7 @@
 /*************************************************************************/
 /* Author        : Mohamed Mokhtar Abd-Elaziz                            */
 /* File          : NVIC_PRIVATE_H                                        */
+/*Describtion    : An educational NVIC driver File for STM32F103C MC     */
 /* Date          :                                                       */
 /* Version       : V01.1                                                 */
 /* GitHub        :                                                       */
@@ -32,7 +33,11 @@ typedef struct
 #define AIRCR_KEY          0x5FA
 
 
-
+/*
+  Evaluateted to 0 if (id < 32)
+          and to 1 if (id > 32)
+*/
+#define REG_FIRST_SECOND(id) (id/32)
 /******************************************************************************/
 
 

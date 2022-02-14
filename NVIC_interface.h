@@ -1,6 +1,7 @@
 /*************************************************************************/
 /* Author        : Mohamed Mokhtar Abd-Elaziz                            */
 /* File          : NVIC_INTERFACE_H                                      */
+/*Describtion    : An educational NVIC driver File for STM32F103C MC     */
 /* Date          :                                                       */
 /* Version       : V01.1                                                 */
 /* GitHub        :                                                       */
@@ -122,9 +123,5 @@ u32  NVIC_u32GetPending (u8 Copy_u8IRQ_ID);
           FALSE  if Copy_u8IRQ_ID isn't Active
 */
 u32  NVIC_u32GetActive (u8 Copy_u8IRQ_ID);
-
-
-
-
 
 #endif  NVIC_INTERFACE_H
