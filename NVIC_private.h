@@ -1,9 +1,9 @@
 /*************************************************************************/
 /* Author        : Mohamed Mokhtar Abd-Elaziz                            */
 /* File          : NVIC_PRIVATE_H                                        */
-/*Describtion    : An educational NVIC driver File for STM32F103C MC     */
+/*Description    : An educational NVIC driver File for STM32F103C MC     */
 /* Date          :                                                       */
-/* Version       : V01.1                                                 */
+/* Version       : V01.2                                                 */
 /* GitHub        :                                                       */
 /*************************************************************************/
 #ifndef NVIC_PRIVATE_H
@@ -29,12 +29,12 @@ typedef struct
 #define NVIC_BASE_ADDRESS  0xE000E100
 #define MY_NVIC            ((NVIC_RegType *)0xE000E100)
 
-#define NVIC_SCB_AIRCR     *((volu32*)0xE000E014)
+#define NVIC_SCB_AIRCR     *((volu32*)0xE000ED0C)
 #define AIRCR_KEY          0x5FA
 
 
 /*
-  Evaluateted to 0 if (id < 32)
+  Evaluated to 0 if (id < 32)
           and to 1 if (id > 32)
 */
 #define REG_FIRST_SECOND(id) (id/32)
@@ -42,4 +42,4 @@ typedef struct
 
 
 
-#endif  NVIC_PRIVATE_H
+#endif /* NVIC_PRIVATE_H*/
