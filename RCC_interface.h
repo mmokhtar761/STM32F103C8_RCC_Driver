@@ -2,23 +2,48 @@
 /* Author        : Mohamed Mokhtar Abd-Elaziz                                 */
 /* File          : RCC_interface.h                                            */
 /* Date          : 8 NOV 2021                                                 */
-/* Version       : V01                                                        */
+/* Version       : V05 -> Structure register definition & Some optimizations  */
 /* GitHub        : https://github.com/mmokhtar761                             */
 /******************************************************************************/
 #ifndef RCC_INTERFACE_H
 #define RCC_INTERFACE_H
-/******************************************************************************/
-/************************ RCC clock functions section *************************/
-/******************************************************************************/
-void RCC_voidInitClk( void);
 
-void RCC_voidEnPeripheralClk ( u8 Copy_u8PeripheralBus  , u8 Copy_u8Peripheral );
-void RCC_voidDisPeripheralClk( u8 Copy_u8PeripheralBus  , u8 Copy_u8Peripheral );
+/******************************************************************************/
+/********************** Essential RCC functions section ***********************/
+/******************************************************************************/
+
+    /*Initialize Clock configurations as selected  and prompets
+                         compilation errors if any limitations is exceeded*/
+void RCC_voidInitClk( void);
+/*----------------------------------------------------------------------------*/
+                           /*EN/!EN Prepherals CLKs*/
+void RCC_voidEnPeripheralClk  ( u8 Copy_u8PeripheralBus  , u8 Copy_u8Peripheral );
+void RCC_voidDisPeripheralClk ( u8 Copy_u8PeripheralBus  , u8 Copy_u8Peripheral );
+/*----------------------------------------------------------------------------*/
+                           /*Activate SysClk as HSI*/
+void RCC_voidSetHSI8MHzCLK    (void);
+/*----------------------------------------------------------------------------*/
+   /*Returns the actual active clk configuration
+                                    returned values are as descripeds below*/
+#define RCC_HSE_CRYSTAL         0
+#define RCC_HSE_RC              1
+#define RCC_HSI_RC              2
+#define RCC_PLL_HSE             3
+#define RCC_PLL_HSE_BY_2        4
+#define RCC_PLL_HSI_BY_2        5
+u8   RCC_u8CheckActiveClkSource (void);
+    //to go back to preconfigered clk options, call RCC_voidInitClk()
+/*----------------------------------------------------------------------------*/
+                            /*Retun Freq unit is Hz*/
+u32  RCC_u32GetSysClkFreq     (void);
+u32  RCC_u32GetBusClkFreq  (u8 Copy_u8PeripheralBus);
+/*----------------------------------------------------------------------------*/
                         /* Choose arguments from below */
-//Copy_u8PeripheralBus options :
-#define RCC_AHB_BUS_ID   0
-#define RCC_APB1_BUS_ID  1
-#define RCC_APB2_BUS_ID  2
+//Copy_u8PeripheralBus options
+#define RCC_AHB_BUS_ID    2
+#define RCC_APB1_BUS_ID   4
+#define RCC_APB2_BUS_ID   6
+
 //Copy_u8Peripheral for RCC_AHB_BUS
 #define RCC_DMA1_CLK_EN   0
 #define RCC_DMA2_CLK_EN   1
@@ -68,7 +93,9 @@ void RCC_voidDisPeripheralClk( u8 Copy_u8PeripheralBus  , u8 Copy_u8Peripheral )
 #define RCC_TIM10_CLK_EN  20
 #define RCC_TIM11_CLK_EN  21
 
-/****************************HSI Calibraton section****************************/
+/******************************************************************************/
+/************************** HSI Calibraton section ****************************/
+/******************************************************************************/
 //Note : needed only if HSI is enabled
 //Uncomment the following line if calibration is needed
 //#define RCC_HSI_CALIBRATION_EN
@@ -78,7 +105,9 @@ void RCC_voidDisPeripheralClk( u8 Copy_u8PeripheralBus  , u8 Copy_u8Peripheral )
     void RCC_voidTrimHSI(s16 Copy_calibrationOffset);
 #endif /*RCC_HSI_CALIBRATION_EN end */
 
-/*************************Main clock output on MCO Pin*************************/
+/******************************************************************************/
+/*********************** Main clock output on MCO Pin *************************/
+/******************************************************************************/
 //Options: Comment the next line if there is no need for MCO pin
 //#define RCC_MCO_ENABLE
 #ifdef  RCC_MCO_ENABLE
@@ -92,27 +121,17 @@ void RCC_voidDisPeripheralClk( u8 Copy_u8PeripheralBus  , u8 Copy_u8Peripheral )
     void RCC_voidDisMCO(void);
 #endif  /*RCC_MCO_ENABLE end */
 
-
+/******************************************************************************/
 /*********************Run-Time Clk Manipiulation Functions*********************/
-/* For run time decisions about Clk source, User can enable these feature.    */
-//Uncomment this line to enable the compilation of the following Functions :
-
+/******************************************************************************/
+  /* For run time decisions about Clk source, User can enable the feature */
+//Uncomment the following line to enable the compilation of the following Functions :
 //#define RCC_RUN_TIME_CLK_SELECT_ENABLE
 ifdef RCC_RUN_TIME_CLK_SELECT_ENABLE
 
-    /************************Options for sys clk source************************/
-    #define RCC_HSE_CRYSTAL         0
-    #define RCC_HSE_RC              1
-    #define RCC_HSI_RC              2
-    #define RCC_PLL_HSE             3
-    #define RCC_PLL_HSE_BY_2        4
-    #define RCC_PLL_HSI_BY_2        5
+                        /*add the wanted prototypes here*/
 
-    u8 RCC_u8CheckActiveClkSource (void); //Returns the active clk type
-    void RCC_voidSetHSI8MHzCLK();         //Activate SysClk as HSI
-    //to go back to configered clk options, call RCC_voidInitClk
 #endif /*RCC_RUN_TIME_CLK_SELECT_ENABLE*/
-
-
+/******************************************************************************/
 
 #endif  /*RCC_INTERFACE_H END */
