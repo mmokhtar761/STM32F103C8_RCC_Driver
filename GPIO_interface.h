@@ -2,7 +2,7 @@
 /* Author        : Mohamed Mokhtar Abd-Elaziz                                 */
 /* File          : GPIO_interface.h                                           */
 /* Date          : 25 DEC 2021                                                */
-/* Version       : V01                                                        */
+/* Version       : V1.1                                                       */
 /* GitHub        : https://github.com/mmokhtar761                             */
 /******************************************************************************/
 #ifndef GPIO_INTERFACE_H
@@ -66,6 +66,12 @@ u8 GPIO_u8SetPortValue     (u8 Copy_u8Port , u32 Copy_u32PortValue);
 u8  GPIO_u8GetPinValue      (u8 Copy_u8Port , u8 Copy_u8PinNumber);
 u16 GPIO_u8GetHalfPortValue (u8 Copy_u8Port , u8 Copy_u8HalfSide);
 u32 GPIO_u8GetPortValue     (u8 Copy_u8Port);
+/*----------------------------------------------------------------------------*/
+/*
+To read/write the AFIO_EVCR, AFIO_MAPR and AFIO_EXTICRX registers, the AFIO clock
+                    should first be enabled.
+*/
+u8 GPIO_u8MappAFI_ToEXTILines (u8 Copy_u8EXTILine , u8 Copy_u8Port );
 /******************************************************************************/
 #define GPIO_OK               0
 #define GPIO_ERROR_WRONG_PORT 2
