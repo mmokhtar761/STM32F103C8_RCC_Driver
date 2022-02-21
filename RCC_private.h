@@ -2,7 +2,7 @@
 /* Author        : Mohamed Mokhtar Abd-Elaziz                                 */
 /* File          : RCC_private.h                                              */
 /* Date          : 8 NOV 2021                                                 */
-/* Version       : V05 -> Structure register definition & Some optimizations  */
+/* Version       : V06 -> Compilled and tested the essential functions        */
 /* GitHub        : https://github.com/mmokhtar761                             */
 /******************************************************************************/
 #ifndef RCC_PRIVATE_H
@@ -51,4 +51,6 @@ typedef struct
 #define RCC_HSI_TRIM_STEP       40000     //40 KHz
 #define RCC_MAX_CALIBRATION_VAL 0x1F
 /******************************************************************************/
+
+u8 i=0;
 #endif  /*RCC_PRIVATE_H end*/

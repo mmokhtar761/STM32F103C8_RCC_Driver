@@ -2,10 +2,10 @@
 /* Author        : Mohamed Mokhtar Abd-Elaziz                                 */
 /* File          : RCC_program.c                                              */
 /* Date          : 8 NOV 2021                                                 */
-/* Version       : V05 -> Structure register definition & Some optimizations  */
+/* Version       : V06 -> Compilled and tested the essential functions        */
 /* GitHub        : https://github.com/mmokhtar761                             */
 /******************************************************************************/
-#include "MANIPILATOR.h"
+#include "MANIPULATOR.h"
 #include "STD_TYPES.h"
 
 #include "RCC_interface.h"
@@ -18,7 +18,6 @@
 /******************************************************************************/
 void RCC_voidInitClk(void)
 {
-	u8 i=0;
 	                     /**Handling the SysClk**/
 
   #if   RCC_SYS_CLK_SOURCE == RCC_HSI_RC
@@ -202,15 +201,15 @@ void RCC_voidEnPeripheralClk ( u8 Copy_u8PeripheralBus  , u8 Copy_u8Peripheral )
 {
 	if      (Copy_u8PeripheralBus==RCC_AHB_BUS_ID)
 	{
-		BIT_H(RCC_AHBENR,Copy_u8Peripheral);
+		BIT_H(MY_RCC->RCC_AHBENR,Copy_u8Peripheral);
 	}
 	else if (Copy_u8PeripheralBus==RCC_APB1_BUS_ID)
 	{
-		BIT_H(RCC_APB1ENR,Copy_u8Peripheral);
+		BIT_H(MY_RCC->RCC_APB1ENR,Copy_u8Peripheral);
 	}
 	else if (Copy_u8PeripheralBus==RCC_APB2_BUS_ID)
 	{
-		BIT_H(RCC_APB2ENR,Copy_u8Peripheral);
+		BIT_H(MY_RCC->RCC_APB2ENR,Copy_u8Peripheral);
 	}
 }
 /*----------------------------------------------------------------------------*/
@@ -218,15 +217,15 @@ void RCC_voidDisPeripheralClk( u8 Copy_u8PeripheralBus  , u8 Copy_u8Peripheral )
 {
 	if      (Copy_u8PeripheralBus==RCC_AHB_BUS_ID)
 	{
-		BIT_L(RCC_AHBENR,Copy_u8Peripheral);
+		BIT_L(MY_RCC->RCC_AHBENR,Copy_u8Peripheral);
 	}
 	else if (Copy_u8PeripheralBus==RCC_APB1_BUS_ID)
 	{
-		BIT_L(RCC_APB1ENR,Copy_u8Peripheral);
+		BIT_L(MY_RCC->RCC_APB1ENR,Copy_u8Peripheral);
 	}
 	else if (Copy_u8PeripheralBus==RCC_APB2_BUS_ID)
 	{
-		BIT_L(RCC_APB2ENR,Copy_u8Peripheral);
+		BIT_L(MY_RCC->RCC_APB2ENR,Copy_u8Peripheral);
 	}
 
 }
@@ -244,24 +243,26 @@ void RCC_voidSetHSI8MHzCLK()         //Activate SysClk as HSI
 	BIT_L(MY_RCC->RCC_CR,16); //HSE OFF
 }
 /*----------------------------------------------------------------------------*/
+
 u8 RCC_u8CheckActiveSysClkSource (void)  //Returns the active clk type
 {
-	u8 SWS =(MY_RCC->RCC_CFGR>2) & Ox3; //Reads bits [2,3]
+	u8 SWS =(MY_RCC->RCC_CFGR>2) & 0x3; //Reads bits [2,3]
 	if (SWS==0)                        return RCC_HSI_RC;
 	if (SWS==1 &&  GET_BIT(MY_RCC->RCC_CR,18)) return RCC_HSE_RC;
 	if (SWS==1 && !GET_BIT(MY_RCC->RCC_CR,18)) return RCC_HSE_CRYSTAL;
 	if (SWS==2 &&  GET_BIT(MY_RCC->RCC_CFGR,16)) { //Checks if HSE is the input of PLL
-		if (GET_BIT(MY_RCC->RCC_CFGR,17)) reteun RCC_PLL_HSE_BY_2;
-		else 							  			reteun RCC_PLL_HSE;
+		if (GET_BIT(MY_RCC->RCC_CFGR,17)) return RCC_PLL_HSE_BY_2;
+		else 							  			return RCC_PLL_HSE;
 	}
 	if (SWS==2 &&  !GET_BIT(MY_RCC->RCC_CFGR,16)) return RCC_PLL_HSI_BY_2;
-	else return 0; //ERROR//
+	return 0; //ERROR//
+
 }
 /*----------------------------------------------------------------------------*/
 u32  RCC_u32GetSysClkFreq     (void)
 {
-	u8 Local_u32SysFreq = RCC_u8CheckActiveClkSource();
-	switch( Local_u32SysFreq )
+	u8 Local_u8SysFreqSource = RCC_u8CheckActiveSysClkSource();
+	switch( Local_u8SysFreqSource )
 	{
 		case RCC_HSI_RC:
 				return RCC_HSI_FRQ;
@@ -272,6 +273,8 @@ u32  RCC_u32GetSysClkFreq     (void)
 		case RCC_HSE_CRYSTAL:
 				return RCC_HSE_FRQ;
 				break;
+#ifdef RCC_PLL_IS_ON
+
 		case RCC_PLL_HSE:
 				return RCC_HSE_FRQ * RCC_PLL_MUL_FACTOR;
 				break;
@@ -281,13 +284,16 @@ u32  RCC_u32GetSysClkFreq     (void)
 		case RCC_PLL_HSI_BY_2:
 				return RCC_HSI_FRQ/2 * RCC_PLL_MUL_FACTOR;
 				break;
+#endif
 			}
+	return 0; //ERROR//
+
 
 }
 /*----------------------------------------------------------------------------*/
 u32  RCC_u32GetBusClkFreq (u8 Copy_u8PeripheralBus)
 {
-	u8 Local_u32SysFreq = RCC_u32GetSysClkFreq();
+	u32 Local_u32SysFreq = RCC_u32GetSysClkFreq();
 
 	if      (Copy_u8PeripheralBus==RCC_AHB_BUS_ID)
 	{
@@ -301,6 +307,8 @@ u32  RCC_u32GetBusClkFreq (u8 Copy_u8PeripheralBus)
 	{
 		return  Local_u32SysFreq * RCC_AHB_PRESC * RCC_APB2_PRESC;
 	}
+	return 0; //ERROR//
+
 }
 
 /******************************************************************************/
@@ -347,7 +355,7 @@ u32  RCC_u32GetBusClkFreq (u8 Copy_u8PeripheralBus)
 /******************************************************************************/
 /*********************Run-Time Clk Manipiulation Functions*********************/
 /******************************************************************************/
-ifdef RCC_RUN_TIME_CLK_SELECT_ENABLE
+#ifdef RCC_RUN_TIME_CLK_SELECT_ENABLE
 
        /* Define the wanted funcytions here*/
 

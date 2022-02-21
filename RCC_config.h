@@ -2,7 +2,7 @@
 /* Author        : Mohamed Mokhtar Abd-Elaziz                                 */
 /* File          : RCC_config.h                                               */
 /* Date          : 8 NOV 2021                                                 */
-/* Version       : V05 -> Structure register definition & Some optimizations  */
+/* Version       : V06 -> Compilled and tested the essential functions        */
 /* GitHub        : https://github.com/mmokhtar761                             */
 /******************************************************************************/
 #ifndef RCC_CONFIG_H

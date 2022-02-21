@@ -2,7 +2,7 @@
 /* Author        : Mohamed Mokhtar Abd-Elaziz                                 */
 /* File          : RCC_interface.h                                            */
 /* Date          : 8 NOV 2021                                                 */
-/* Version       : V05 -> Structure register definition & Some optimizations  */
+/* Version       : V06 -> Compilled and tested the essential functions        */
 /* GitHub        : https://github.com/mmokhtar761                             */
 /******************************************************************************/
 #ifndef RCC_INTERFACE_H
@@ -25,13 +25,13 @@ void RCC_voidSetHSI8MHzCLK    (void);
 /*----------------------------------------------------------------------------*/
    /*Returns the actual active clk configuration
                                     returned values are as descripeds below*/
-#define RCC_HSE_CRYSTAL         0
-#define RCC_HSE_RC              1
-#define RCC_HSI_RC              2
-#define RCC_PLL_HSE             3
-#define RCC_PLL_HSE_BY_2        4
-#define RCC_PLL_HSI_BY_2        5
-u8   RCC_u8CheckActiveClkSource (void);
+#define RCC_HSE_CRYSTAL         2
+#define RCC_HSE_RC              4
+#define RCC_HSI_RC              8
+#define RCC_PLL_HSE             16
+#define RCC_PLL_HSE_BY_2        32
+#define RCC_PLL_HSI_BY_2        64
+u8   RCC_u8CheckActiveSysClkSource (void);
     //to go back to preconfigered clk options, call RCC_voidInitClk()
 /*----------------------------------------------------------------------------*/
                             /*Retun Freq unit is Hz*/
@@ -127,7 +127,7 @@ u32  RCC_u32GetBusClkFreq  (u8 Copy_u8PeripheralBus);
   /* For run time decisions about Clk source, User can enable the feature */
 //Uncomment the following line to enable the compilation of the following Functions :
 //#define RCC_RUN_TIME_CLK_SELECT_ENABLE
-ifdef RCC_RUN_TIME_CLK_SELECT_ENABLE
+#ifdef RCC_RUN_TIME_CLK_SELECT_ENABLE
 
                         /*add the wanted prototypes here*/
 
