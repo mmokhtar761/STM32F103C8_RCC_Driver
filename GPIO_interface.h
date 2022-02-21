@@ -2,7 +2,7 @@
 /* Author        : Mohamed Mokhtar Abd-Elaziz                                 */
 /* File          : GPIO_interface.h                                           */
 /* Date          : 25 DEC 2021                                                */
-/* Version       : V1.1                                                       */
+/* Version       : V2.0 -> Compilled and tested the essential functions       */
 /* GitHub        : https://github.com/mmokhtar761                             */
 /******************************************************************************/
 #ifndef GPIO_INTERFACE_H
@@ -73,8 +73,9 @@ To read/write the AFIO_EVCR, AFIO_MAPR and AFIO_EXTICRX registers, the AFIO cloc
 */
 u8 GPIO_u8MappAFI_ToEXTILines (u8 Copy_u8EXTILine , u8 Copy_u8Port );
 /******************************************************************************/
-#define GPIO_OK               0
-#define GPIO_ERROR_WRONG_PORT 2
-#define GPIO_ERROR_WRONG_PIN  4
+#define GPIO_OK                      0
+#define GPIO_ERROR_WRONG_PORT        2
+#define GPIO_ERROR_WRONG_PIN         4
+#define GPIO_ERROR_WRONG_EXYTI_LINE  6
 /******************************************************************************/
 #endif  /*GPIO_INTERFACE_H*/

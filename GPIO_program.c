@@ -2,7 +2,7 @@
 /* Author        : Mohamed Mokhtar Abd-Elaziz                                 */
 /* File          : GPIO_program.c                                             */
 /* Date          : 25 DEC 2021                                                */
-/* Version       : V1.1                                                       */
+/* Version       : V2.0 -> Compilled and tested the essential functions       */
 /* GitHub        : https://github.com/mmokhtar761                             */
 /******************************************************************************/
 
@@ -10,6 +10,12 @@
 /******************************************************************************/
 /************************** Configuration Functions ***************************/
 /******************************************************************************/
+#include "MANIPULATOR.h"
+#include "STD_TYPES.h"
+#include "GPIO_interface.h"
+#include "GPIO_private.h"
+#include "GPIO_config.h"
+
 u8 GPIO_u8ConfigPin (u8 Copy_u8Port , u8 Copy_u8PinNumber , u8 Copy_u8Mode)
 {
   if (Copy_u8Port <= 6)
@@ -42,6 +48,8 @@ u8 GPIO_u8ConfigPin (u8 Copy_u8Port , u8 Copy_u8PinNumber , u8 Copy_u8Mode)
     else return GPIO_ERROR_WRONG_PIN;
   }
   else return GPIO_ERROR_WRONG_PORT;
+  return GPIO_OK;
+
 }
 /*----------------------------------------------------------------------------*/
 u8 GPIO_u8ConfigHalfPort (u8 Copy_u8Port , u8 Copy_u8HalfSide  , u8 Copy_u8Mode)
@@ -66,14 +74,17 @@ u8 GPIO_u8ConfigHalfPort (u8 Copy_u8Port , u8 Copy_u8HalfSide  , u8 Copy_u8Mode)
       Copy_u8Mode = Copy_u8Mode >> 1;
     }
     for (i=0;i<16;i+=4) Local_u32HalfPortMode += (Copy_u8Mode << i);
-    if      ( Copy_u8HalfSide)MY_PASSED_GPIO_PORT(Copy_u8Port)->CRH = Local_u32PortMode;
-    else if (!Copy_u8HalfSide)MY_PASSED_GPIO_PORT(Copy_u8Port)->CRL = Local_u32PortMode;
+    if      ( Copy_u8HalfSide)MY_PASSED_GPIO_PORT(Copy_u8Port)->CRH = Local_u32HalfPortMode;
+    else if (!Copy_u8HalfSide)MY_PASSED_GPIO_PORT(Copy_u8Port)->CRL = Local_u32HalfPortMode;
   }
   else return GPIO_ERROR_WRONG_PORT;
+  return GPIO_OK;
+
 }
 /*----------------------------------------------------------------------------*/
 u8 GPIO_u8ConfigPort (u8 Copy_u8Port , u8 Copy_u8Mode)
 {
+	//GPIO_PORT_Type* DEBUGVAR = MY_PASSED_GPIO_PORT(Copy_u8Port) ;
   u32 Local_u32PortMode=0;
   u8 i =0;
   if (Copy_u8Port <= 6)
@@ -95,9 +106,11 @@ u8 GPIO_u8ConfigPort (u8 Copy_u8Port , u8 Copy_u8Mode)
     }
     for (i=0;i<32;i+=4) Local_u32PortMode += (Copy_u8Mode << i);
     MY_PASSED_GPIO_PORT(Copy_u8Port)->CRL = Local_u32PortMode;
+
     MY_PASSED_GPIO_PORT(Copy_u8Port)->CRH = Local_u32PortMode;
   }
   else return GPIO_ERROR_WRONG_PORT;
+  return GPIO_OK;
 }
 
 /******************************************************************************/
@@ -108,7 +121,7 @@ u8 GPIO_u8SetPinValue      (u8 Copy_u8Port , u8 Copy_u8PinNumber , u8 Copy_u8Pin
   if (Copy_u8Port>6) return GPIO_ERROR_WRONG_PORT;
   if (Copy_u8PinNumber<16)
   {
-    if (Copy_u8PinValue == 0) Copy_u8PinNumber+=16
+    if (Copy_u8PinValue == 0) Copy_u8PinNumber+=16;
     MY_PASSED_GPIO_PORT(Copy_u8Port)->BSRR = 1 << Copy_u8PinNumber;
     return GPIO_OK;
   }
@@ -170,6 +183,8 @@ u16 GPIO_u8GetHalfPortValue (u8 Copy_u8Port , u8 Copy_u8HalfSide)
 u32 GPIO_u8GetPortValue     (u8 Copy_u8Port)
 {
   return MY_PASSED_GPIO_PORT(Copy_u8Port)->IDR;
+	//return MY_GPIO+Copy_u8Port->IDR;
+
 }
 /******************************************************************************/
 /*************************** AFIO mapping functions ***************************/
@@ -179,9 +194,9 @@ u8 GPIO_u8MappAFI_ToEXTILines (u8 Copy_u8EXTILine , u8 Copy_u8Port )
 {
   u8 Local_u8RegPos   = Copy_u8EXTILine /4;
   u8 Local_u8StartBit = Copy_u8EXTILine - Local_u8RegPos*4;
-
-  MY_AFIO->EXTICRx [Copy_u8EXTILine /4]
-  MAN_NIBBLE(MY_AFIO->EXTICRx [Local_u8RegPos],Local_u8StartBit,Copy_u8Port);
+  if      (Copy_u8Port>6)     return GPIO_ERROR_WRONG_PORT;
+  if      (Copy_u8EXTILine>15) return GPIO_ERROR_WRONG_EXYTI_LINE;
+  MAN_NIBBLE(MY_AFIOK->EXTICRx [Local_u8RegPos],Local_u8StartBit,Copy_u8Port);
   return GPIO_OK;
 }
 /******************************************************************************/
