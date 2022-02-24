@@ -2,21 +2,16 @@
 /* Author        : Mohamed Mokhtar Abd-Elaziz                            */
 /* File          :                                                       */
 /*Description    : An educational EXTI driver File for STM32F103C MC     */
-/* Date          :                                                       */
-/* Version       : V01.0                                                 */
-/* GitHub        :                                                       */
+/* Date          : 10 FEB-2022                                           */
+/* Version       : V1.1 -> essential tests are passed                    */
+/* GitHub        : https://github.com/mmokhtar761                        */
 /*************************************************************************/
 #include "STD_TYPES.h"
 #include "MANIPULATOR.h"
-#inclide "ERROR_MACROS.h"
-#include "EXTI_config.h"
 #include "EXTI_interface.h"
+#include "EXTI_config.h"
 #include "EXTI_private.h"
-/*
-BAD_EXTI_LINE
-BAD_TRIGGERING_MODE
-EXTI_OK
-*/
+
 u8 EXTI_u8ConfigLine (u8 Copy_u8EXTI_Line , u8 Copy_u8TriggeringMode)
 {
   if (Copy_u8EXTI_Line > 18) return BAD_EXTI_LINE;
@@ -37,7 +32,7 @@ u8 EXTI_u8ConfigLine (u8 Copy_u8EXTI_Line , u8 Copy_u8TriggeringMode)
   return EXTI_OK;
 }
 
-
+/*-----------------------------------------------------------------*/
 
 u8 EXTI_u8EnableLineIRQ    (u8 Copy_u8EXTI_Line)
 {
@@ -51,8 +46,7 @@ u8 EXTI_u8DisableLineIRQ    (u8 Copy_u8EXTI_Line)
   BIT_L(MY_EXTI->EXTI_IMR , Copy_u8EXTI_Line);
   return EXTI_OK;
 }
-
-
+/*-----------------------------------------------------------------*/
 u8 EXTI_u8EnableLineEvent  (u8 Copy_u8EXTI_Line)
 {
   if (Copy_u8EXTI_Line > 18) return BAD_EXTI_LINE;
@@ -65,7 +59,7 @@ u8 EXTI_u8DisableLineEvent  (u8 Copy_u8EXTI_Line)
   BIT_L(MY_EXTI->EXTI_EMR , Copy_u8EXTI_Line);
   return EXTI_OK;
 }
-
+/*-----------------------------------------------------------------*/
 u8 EXTI_u8SetSoftWareTrig  (u8 Copy_u8EXTI_Line)
 {
     BIT_H(MY_EXTI->EXTI_SWIER , Copy_u8EXTI_Line);
@@ -80,8 +74,9 @@ void EXTI_voidSetCallBackFn (u8 Copy_u8EXTI_Line , void (*fnPtr)(void))
 {
   EXTI_CallBack[Copy_u8EXTI_Line] = fnPtr;
 }
+
 /******************************************************************************/
-/********************* Handelers definition for EXTI IRQs *********************/
+/********************* Handlers definition for EXTI IRQs *********************/
 /******************************************************************************/
 #ifdef EXTI0_LINE
 void EXTI0_IRQHandler(void){
@@ -153,5 +148,5 @@ void USBWakeup_IRQHandler(void){
 }
 #endif
 /******************************************************************************/
-/***************** End of handelers definition for EXTI IRQs ******************/
+/***************** End of handlers definition for EXTI IRQs ******************/
 /******************************************************************************/
