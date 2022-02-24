@@ -3,7 +3,7 @@
 /* File          : STK_CONFIG_H                                          */
 /*Describtion    : An educational SysTick driver File for STM32F103C MC  */
 /* Date          : FEB 2022                                              */
-/* Version       : V02-> The first compiled version&CallBackFunc is added*/
+/* Version       : V2.1-> The interrupt enabling is separated            */
 /* GitHub        : https://github.com/mmokhtar761                        */
 /*************************************************************************/
 #ifndef STK_CONFIG_H
