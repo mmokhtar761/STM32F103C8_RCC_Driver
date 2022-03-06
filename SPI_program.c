@@ -8,8 +8,8 @@
 /*************************************************************************/
 #include "STD_TYPES.h"
 #include "MANIPULATOR.h"
-#include "SPI_config.h"
 #include "SPI_interface.h"
+#include "SPI_config.h"
 #include "SPI_private.h"
 
 u8 SPI1_u8InitSPI1(u8 Copy_u8APB2FreqDivFactor ,u8 Copy_u8FrameSize , u8 Copy_u8DtaOrder)
@@ -154,7 +154,7 @@ u16 SPI1_u16SyncXchg  (u16 Local_u16Data)
 #endif /*SPI1_COMMUNICATION_MODE*/
 
 
-#else /*Slave mode has been selected*/
+#elif SPI1_MODE== SLAVE_MODE /*Slave mode has been selected*/
 	/*Write data to be ready for any communication*/
 	MySPI1->DR = Local_u16Data;
 	return SPI_OK;
@@ -185,7 +185,7 @@ void SPI1_u16AsyncXchg  (u16 Local_u16Data)
 #endif /*SPI1_COMMUNICATION_MODE*/
 
 
-#else  /*Slave mode is selected*/
+#elif SPI1_MODE== SLAVE_MODE /*Slave mode has been selected*/
 	/*Write data to be ready for any communication*/
 	MySPI1->DR = Local_u16Data;
 #endif /*SPI1_MODE*/
@@ -307,12 +307,10 @@ u8 SPI1_u8GetBusyFlagSate(void)
 /*----------------------------------------------------------------------------*/
 void SPI1_IRQHandler()
 {
+	/* --> IN SLAVE MODE   */
  /*This IRQ is fired due to completion of reception/transmission (if enabled)*/
 	       /*Master who starts the communication to exchange the DATA*/
  /*This place means a piece of data has been sent (& RX or TX IRQ is enabled)*/
-	/*Check to secure random addresses accessing and pass data to the called fn*/
-
-
 
 #if   SPI1_COMMUNICATION_MODE != SPI_DATA_TRASMIT_ONLY
 	/*Check to secure random addresses accessing and pass data to the called fn*/
