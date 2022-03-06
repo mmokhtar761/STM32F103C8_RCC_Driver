@@ -3,7 +3,7 @@
 /* File          : SPI_PRIVATE_H                                         */
 /*Description    : An educational SPI driver File for STM32F103C MC      */
 /* Date          : 4 March 2022                                          */
-/* Version       : V01                                                   */
+/* Version       : V02 -> A good implementation & no real tests are done */
 /* GitHub        : https://github.com/mmokhtar761                        */
 /*************************************************************************/
 #ifndef SPI_PRIVATE_H
@@ -27,7 +27,7 @@
 #define SPI_HW_MANAGEMENT 0
 #define SPI_SW_MANAGEMENT 1
 /*----------------------------------------------------------------------------*/
-void(*RxFnPtr)(u16 Data);
+void(*GlFnPtr)(u16 Data);
 u8 G_u8CallBackSetFlag = 0;
 typedef struct
 {

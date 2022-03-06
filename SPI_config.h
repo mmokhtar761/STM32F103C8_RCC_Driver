@@ -3,7 +3,7 @@
 /* File          : SPI_CONFIG_H                                          */
 /*Description    : An educational SPI driver File for STM32F103C MC      */
 /* Date          : 4 March 2022                                          */
-/* Version       : V01                                                   */
+/* Version       : V02 -> A good implementation & no real tests are done */
 /* GitHub        : https://github.com/mmokhtar761                        */
 /*************************************************************************/
 #ifndef SPI_CONFIG_H
@@ -14,7 +14,7 @@ Options:
    MASTER_MODE
    SLAVE_MODE
 */
-#define SPI1_MODE MASTER_MODE
+#define SPI1_MODE SLAVE_MODE
 /*
 Options:
   * SPI_FULL_DUPLEX       -> The usual mode used with SPI
@@ -24,8 +24,8 @@ Options:
 
   * SPI_DATA_RECEIVE_ONLY -> This option frees the transmit IO pin, so it
     can be used for other purposes. In this mode, if master is chosen,
-    the communication starts immediately and stops when the SPE bit is cleared
-    and the current reception stops. There is no need to read the BSY flag
+    the communication starts when the SPE bit is set and stops when the SPE
+     bit is cleared and the current reception stops. There is no need to read the BSY flag
     in this mode. It is always set when an SPI communication is ongoing.
 
   * SPI_BIDIRECTIONAL_DATA_WIRE -> MOSI in master or MISO in slave mode is
