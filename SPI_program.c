@@ -3,7 +3,7 @@
 /* File          :                                                       */
 /*Description    : An educational SPI driver File for STM32F103C MC      */
 /* Date          : 4 March 2022                                          */
-/* Version       : V02 -> A good implementation & no real tests are done */
+/* Version       : V2.1 -> NSS config in Master mode to be High by SW    */
 /* GitHub        : https://github.com/mmokhtar761                        */
 /*************************************************************************/
 #include "STD_TYPES.h"
@@ -44,6 +44,13 @@ MAN_BIT(MySPI1->CR1,7,Copy_u8DtaOrder);
 BIT_H(MySPI1->CR1,2);
 
 /* Continue here NSS config*/
+
+/*To make it traditional master, NSS must be high*/
+/*I achieved this by setting it using SW management bit*/
+BIT_H(MySPI1->CR1,9); // Set SSM  bit
+BIT_H(MySPI1->CR2,2); // Set SSOE bit
+
+
 
 #elif SPI1_MODE == SLAVE_MODE
                         /*Slave mode configurations*/

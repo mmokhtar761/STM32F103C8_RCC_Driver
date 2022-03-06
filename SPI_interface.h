@@ -3,7 +3,7 @@
 /* File          : SPI_INTERFACE_H                                       */
 /*Description    : An educational SPI driver File for STM32F103C MC      */
 /* Date          : 4 March 2022                                          */
-/* Version       : V02 -> A good implementation & no real tests are done */
+/* Version       : V2.1 -> NSS config in Master mode to be High by SW    */
 /* GitHub        : https://github.com/mmokhtar761                        */
 /*************************************************************************/
 #ifndef SPI_INTERFACE_H
