@@ -71,6 +71,7 @@ void USART1_voidDisIRQ (u8 Local_u8Flag);
  */
 u8  USART1_u8SyncTx    (u16  Local_u16Data);
 u8  USART1_u8SyncTxArr (u16 *Local_u16ArrPtr , u16  Local_u16ArrWidth);
+u8  USART1_u8SyncTxStr (u8  *Local_u8StrPtr  , u16  Local_u16StrWidth);
 
 u8 USART1_u8SyncRx    (u16 *Local_u16PtrData);
 //u16* SPI1_u16PtrSyncRxArr (u16  Local_u16ArrWidth);

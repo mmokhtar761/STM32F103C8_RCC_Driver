@@ -40,10 +40,10 @@ typedef struct
 } USART_RegType;
 
 #define USART1_BASE_ADDRESS 0x40013800
-#define USART2_BASE_ADDRESS 0x40004400
+//#define USART2_BASE_ADDRESS 0x40004400
 
 #define MyUSART1    ((USART_RegType*)USART1_BASE_ADDRESS) //on ABP2 Bus
-#define MyUSART2    ((USART_RegType*)USART2_BASE_ADDRESS) //on ABP1 Bus
+//#define MyUSART2    ((USART_RegType*)USART2_BASE_ADDRESS) //on ABP1 Bus
 /******************************************************************************/
 #if USART1_MODE == USART_SYNCRONOUS
 /*USART1 Clock Options definition*/

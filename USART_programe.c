@@ -141,6 +141,22 @@ u8   USART1_u8SyncTxArr      (u16 *Local_u16ArrPtr , u16  Local_u16ArrWidth)
   while (!GET_BIT(MyUSART1->SR,6));
   return USART_OK;
 }
+u8  USART1_u8SyncTxStr (u8  *Local_u8StrPtr  , u16  Local_u16StrWidth)
+{
+	u16 i=0;
+	for (;i<Local_u16StrWidth;i++)
+	{
+	  MyUSART1->DR = Local_u8StrPtr[i];
+	  /* Wait TXE flag to indicate TX REG is empty*/
+	  while (!GET_BIT(MyUSART1->SR,7));
+	}
+	/* Wait TC flag to indicate transmission completed
+	                     &
+	  to let it cleared with next DR write */
+	while (!GET_BIT(MyUSART1->SR,6));
+    return USART_OK;
+}
+
 #endif /*RX-only non-related functions*/
 
 //If TX-ONLY is chosen, these functions are not needed//
@@ -203,6 +219,8 @@ void USART1_voidPtrAsyncRxArr (u16 Local_u16ArrWidth ,u16* Local_u16PtrRxArr,voi
   Glbl_u16RxArrPtr = Local_u16PtrRxArr;
   /*The width of the needed array of data to be received */
   Glbl_u16RxArrWidth = Local_u16ArrWidth;
+  /*Assign the required callBack on RX complete*/
+  clBk_RxArr =clBk_OnRxArr;
   /*Check if already there is a ready frame to be read*/
   if   (GET_BIT(MyUSART1->SR,5))
   {
@@ -229,6 +247,7 @@ f32 USART_f32GetBaudRate(void)
 /*----------------------------------------------------------------------------*/
 
 void USART1_IRQHandler (void)
+
 {
   /*Poling for flags and corresponding enable bit*/
   if (GET_BIT(MyUSART1->SR,5) && GET_BIT(MyUSART1->CR1,USART_RX_REG_NOT_EMPTY) )
