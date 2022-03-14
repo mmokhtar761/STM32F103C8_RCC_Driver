@@ -260,6 +260,8 @@ void USART1_IRQHandler (void)
       IRQ1_SnglRxShotF =0;
       /*Call the required func and pass data*/
       clBk_RxData( MyUSART1->DR);
+      /*Disable RXNE IRQ*/
+      USART1_voidDisIRQ  (USART_RX_REG_NOT_EMPTY);
     }
     else if (IRQ1_MltiRxShotF && Glbl_u16RxArrIndex < Glbl_u16RxArrWidth)
     {
@@ -274,6 +276,8 @@ void USART1_IRQHandler (void)
       Glbl_u16RxArrIndex  = 0;
       /*Call the passed fnc and give it the array pointer tyo handle it*/
       clBk_RxArr (Glbl_u16RxArrPtr);
+      /*Disable RXNE IRQ*/
+      USART1_voidDisIRQ  (USART_RX_REG_NOT_EMPTY);
       //Glbl_u16RxArrPtr =NULL;
     }
   }

@@ -38,7 +38,7 @@ Lcl_u8ParitySel Options:
      This means the current BUS_FREQ can't deal the desired BaudRate
  */
 /***Lcl_u8DataWidth & Lcl_u8ParitySel MUST BE PASSED AS THE PREVIOUS OPTIONS***/
-u8 USART_u8InitUSART1 (f32 Lcl_f32BaudRate , u16 Lcl_u16DataWidth, u16 Lcl_u16ParitySel);
+u8 USART_u8InitUSART1 (f32 Lcl_f32BaudRate , u16 Lcl_u16DataWidth, u16 Lcl_u16ParitySel); /*Works well*/
 /*----------------------------------------------------------------------------*/
 /*
 It is optional to set a callBack function called in IRQ handler when
@@ -69,11 +69,11 @@ void USART1_voidDisIRQ (u8 Local_u8Flag);
  RX functions assigns the received data to the passed pointer if there is ready one.
     Otherwise return USART_EMPTY_RX_REG.
  */
-u8  USART1_u8SyncTx    (u16  Local_u16Data);
-u8  USART1_u8SyncTxArr (u16 *Local_u16ArrPtr , u16  Local_u16ArrWidth);
-u8  USART1_u8SyncTxStr (u8  *Local_u8StrPtr  , u16  Local_u16StrWidth);
+u8  USART1_u8SyncTx    (u16  Local_u16Data);  /*Works well*/
+u8  USART1_u8SyncTxArr (u16 *Local_u16ArrPtr , u16  Local_u16ArrWidth);  /*Works well*/
+u8  USART1_u8SyncTxStr (u8  *Local_u8StrPtr  , u16  Local_u16StrWidth); /*Works well*/
 
-u8 USART1_u8SyncRx    (u16 *Local_u16PtrData);
+u8 USART1_u8SyncRx    (u16 *Local_u16PtrData); /*Works well*/
 //u16* SPI1_u16PtrSyncRxArr (u16  Local_u16ArrWidth);
 /*----------------------------------------------------------------------------*/
 
@@ -82,12 +82,12 @@ These functions doesn't wait to TX/RX value.
 IRQ is generated (if already enabled) to announce any reception.
 Received data/ArrPtr is passed to the related callback function ( If IRQ is already enabled).
 */
-void  USART1_voidAsyncTx (u16  Local_u16Data);
-void  USART1_voidAsyncTxArr    (u16 *Local_u16ArrPtr , u16  Local_u16ArrWidth);
+void  USART1_voidAsyncTx    (u16  Local_u16Data);/*Works well*/
+void  USART1_voidAsyncTxArr (u16 *Local_u16ArrPtr , u16  Local_u16ArrWidth);/*Works well*/
 
 /*Pass action function to be called with the received data/dataPtr*/
-void  USART1_voidAsyncRx (void(*clBk_OnRxData) (u16 Data));
-void USART1_voidPtrAsyncRxArr (u16 Local_u16ArrWidth ,u16* Local_u16PtrRxArr,void(*clBk_OnRxArr) (u16 *Data));
+void  USART1_voidAsyncRx (void(*clBk_OnRxData) (u16 Data));/*Works well*/
+void USART1_voidPtrAsyncRxArr (u16 Local_u16ArrWidth ,u16* Local_u16PtrRxArr,void(*clBk_OnRxArr) (u16 *Data));/*Works well*/
 /*----------------------------------------------------------------------------*/
 /*Returns the actual set baud rate (Depends on configured bus frequency)*/
 f32 USART_f32GetBaudRate(void);
