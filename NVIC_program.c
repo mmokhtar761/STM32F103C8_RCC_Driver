@@ -2,9 +2,9 @@
 /* Author        : Mohamed Mokhtar Abd-Elaziz                            */
 /* File          :                                                       */
 /*Description    : An educational NVIC driver File for STM32F103C MC     */
-/* Date          :                                                       */
+/* Date          : FEB 2022                                              */
 /* Version       : V01.2                                                 */
-/* GitHub        :                                                       */
+/* GitHub        : https://github.com/mmokhtar761                        */
 /*************************************************************************/
 #include "STD_TYPES.h"
 #include "MANIPULATOR.h"
@@ -55,34 +55,38 @@ void NVIC_voidConfigIRQpriority (ExPriphIRQ_type * Ptr_ExPriphIRQ){
 
 void NVIC_voidEnExtIRQ  (u8 Copy_u8IRQ_ID){
   /*
-    REG_FIRST_SECOND(Copy_u8IRQ_ID)  Evaluateted to 0 if (id < 32)
+    REG_FIRST_SECOND(Copy_u8IRQ_ID)  Evaluated to 0 if (id < 32)
                                              and to 1 if (id > 32)
   */
-  MY_NVIC->NVIC_ISER[REG_FIRST_SECOND(Copy_u8IRQ_ID)] = 1 << Copy_u8IRQ_ID;
+  prvtu8Index = REG_FIRST_SECOND(Copy_u8IRQ_ID);
+  MY_NVIC->NVIC_ISER[prvtu8Index] = 1 << (Copy_u8IRQ_ID-prvtu8Index*32);
 }
 
 void NVIC_voidDisExtIRQ (u8 Copy_u8IRQ_ID){
   /*
-    REG_FIRST_SECOND(Copy_u8IRQ_ID)  Evaluateted to 0 if (id < 32)
+    REG_FIRST_SECOND(Copy_u8IRQ_ID)  Evaluated to 0 if (id < 32)
                                              and to 1 if (id > 32)
   */
-  MY_NVIC->NVIC_ICER[REG_FIRST_SECOND(Copy_u8IRQ_ID)] = 1 << Copy_u8IRQ_ID;
+  prvtu8Index = REG_FIRST_SECOND(Copy_u8IRQ_ID);
+  MY_NVIC->NVIC_ICER[prvtu8Index] = 1 << (Copy_u8IRQ_ID-prvtu8Index*32);
 }
 
 void NVIC_voidSetPending (u8 Copy_u8IRQ_ID){
   /*
-    REG_FIRST_SECOND(Copy_u8IRQ_ID)  Evaluateted to 0 if (id < 32)
+    REG_FIRST_SECOND(Copy_u8IRQ_ID)  Evaluated to 0 if (id < 32)
                                              and to 1 if (id > 32)
   */
-  MY_NVIC->NVIC_ISPR[REG_FIRST_SECOND(Copy_u8IRQ_ID)] = 1 << Copy_u8IRQ_ID;
+  prvtu8Index = REG_FIRST_SECOND(Copy_u8IRQ_ID);
+  MY_NVIC->NVIC_ISPR[prvtu8Index] = 1 << (Copy_u8IRQ_ID-prvtu8Index*32);
 }
 
 void NVIC_voidClrPending (u8 Copy_u8IRQ_ID){
   /*
-    REG_FIRST_SECOND(Copy_u8IRQ_ID)  Evaluateted to 0 if (id < 32)
+    REG_FIRST_SECOND(Copy_u8IRQ_ID)  Evaluated to 0 if (id < 32)
                                              and to 1 if (id > 32)
   */
-  MY_NVIC->NVIC_ICPR[REG_FIRST_SECOND(Copy_u8IRQ_ID)] = 1 << Copy_u8IRQ_ID;
+  prvtu8Index = REG_FIRST_SECOND(Copy_u8IRQ_ID);
+  MY_NVIC->NVIC_ICPR[prvtu8Index] = 1 << (Copy_u8IRQ_ID-prvtu8Index*32);
 }
 
 
@@ -91,7 +95,8 @@ u32  NVIC_u32GetPending (u8 Copy_u8IRQ_ID){
   The total expression returns TRUE  (1) if the IRQ is Pending
                            and FALSE (0) if the IRQ is NOT Pending
 */
-  return (GET_BIT(MY_NVIC->NVIC_ISPR[REG_FIRST_SECOND(Copy_u8IRQ_ID)],Copy_u8IRQ_ID));
+  prvtu8Index = REG_FIRST_SECOND(Copy_u8IRQ_ID);
+  return (GET_BIT(MY_NVIC->NVIC_ISPR[prvtu8Index],(Copy_u8IRQ_ID-prvtu8Index*32)));
 }
 
 u32  NVIC_u32GetActive (u8 Copy_u8IRQ_ID){
@@ -99,5 +104,6 @@ u32  NVIC_u32GetActive (u8 Copy_u8IRQ_ID){
     The total expression returns TRUE  (1) if the IRQ is Active
                              and FALSE (0) if the IRQ is NOT Active
   */
-  return (GET_BIT(MY_NVIC->NVIC_IABR[REG_FIRST_SECOND(Copy_u8IRQ_ID)],Copy_u8IRQ_ID));
+  prvtu8Index = REG_FIRST_SECOND(Copy_u8IRQ_ID);
+  return (GET_BIT(MY_NVIC->NVIC_IABR[prvtu8Index],(Copy_u8IRQ_ID-prvtu8Index*32)));
 }

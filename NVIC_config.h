@@ -2,9 +2,9 @@
 /* Author        : Mohamed Mokhtar Abd-Elaziz                            */
 /* File          : NVIC_CONFIG_H                                         */
 /*Describtion    : An educational NVIC driver File for STM32F103C MC     */
-/* Date          :                                                       */
+/* Date          : FEB 2022                                              */
 /* Version       : V01.2                                                 */
-/* GitHub        :                                                       */
+/* GitHub        : https://github.com/mmokhtar761                        */
 /*************************************************************************/
 #ifndef NVIC_CONFIG_H
 #define NVIC_CONFIG_H

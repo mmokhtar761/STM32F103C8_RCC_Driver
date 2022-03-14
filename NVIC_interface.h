@@ -2,9 +2,9 @@
 /* Author        : Mohamed Mokhtar Abd-Elaziz                            */
 /* File          : NVIC_INTERFACE_H                                      */
 /*Describtion    : An educational NVIC driver File for STM32F103C MC     */
-/* Date          :                                                       */
+/* Date          : FEB 2022                                              */
 /* Version       : V01.2                                                 */
-/* GitHub        :                                                       */
+/* GitHub        : https://github.com/mmokhtar761                        */
 /*************************************************************************/
 #ifndef NVIC_INTERFACE_H
 #define NVIC_INTERFACE_H
@@ -86,22 +86,22 @@ typedef struct
 void NVIC_voidinitNVIC (void);
 /*
    DIS : disables all external peripherals IRQs
-   EN  : restors all last en/disable configurations to external peripherals IRQs
+   EN  : restores all last en/disable configurations to external peripherals IRQs
 */
 void NVIC_voidEnDisExternalPeripheralIRQ(u8 Copy_u8ENorDIS);
 /*
-  > This function reseaves a pointer to a variable of type ExPriphIRQ_type contains
+  > This function reserves a pointer to a variable of type ExPriphIRQ_type contains
   the data about (required IRQ id, group priority, and sup-priority)
 
-  > Sets the group priority and suppriority for this IRQ id
+  > Sets the group priority and superiority for this IRQ id
 */
 void NVIC_voidConfigIRQpriority (ExPriphIRQ_type * Ptr_ExPriphIRQ);
 /*
-  Enable spacific IRQ
+  Enable specific IRQ
 */
 void NVIC_voidEnExtIRQ  (u8 Copy_u8IRQ_ID);
 /*
-  Disable spacific IRQ
+  Disable specific IRQ
 */
 void NVIC_voidDisExtIRQ (u8 Copy_u8IRQ_ID);
 

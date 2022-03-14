@@ -2,9 +2,9 @@
 /* Author        : Mohamed Mokhtar Abd-Elaziz                            */
 /* File          : NVIC_PRIVATE_H                                        */
 /*Description    : An educational NVIC driver File for STM32F103C MC     */
-/* Date          :                                                       */
+/* Date          : FEB 2022                                              */
 /* Version       : V01.2                                                 */
-/* GitHub        :                                                       */
+/* GitHub        : https://github.com/mmokhtar761                        */
 /*************************************************************************/
 #ifndef NVIC_PRIVATE_H
 #define NVIC_PRIVATE_H
@@ -39,7 +39,7 @@ typedef struct
 */
 #define REG_FIRST_SECOND(id) (id/32)
 /******************************************************************************/
-
+u8 prvtu8Index=0;
 
 
 #endif /* NVIC_PRIVATE_H*/
